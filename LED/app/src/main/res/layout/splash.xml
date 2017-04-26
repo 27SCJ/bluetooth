@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
+    android:background="@color/accent_material_dark"
     android:orientation="vertical"
-    android:background="#da4c3f"
     android:weightSum="1">
 
     <TextView
@@ -18,14 +18,5 @@
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="35dp" />
-
-    <ImageView
-        android:layout_width="107dp"
-        android:layout_height="178dp"
-        android:id="@+id/imageView2"
-        android:src="@drawable/led"
-        android:layout_marginTop="135dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.12" />
 
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.app.ProgressDialog;
@@ -28,10 +29,11 @@ import static com.led_on_off.led.R.drawable.led;
 public class ledControl extends ActionBarActivity {
 
    // Button btnOn, btnOff, btnDis;
-    ImageButton On, Off, Discnt, Abt;
+    Button On, Off;
+    ImageButton Discnt, Abt;
     String address = null;
     private ProgressDialog progress;
-    BluetoothAdapter myBluetooth = null;
+    BluetoothAdapter myBluetoot = null;
     BluetoothSocket btSocket = null;
     private boolean isBtConnected = false;
     //SPP UUID. Look for it
@@ -51,7 +53,7 @@ public class ledControl extends ActionBarActivity {
         setContentView(R.layout.activity_led_control);
 
         //call the widgets
-        On = (ImageButton)findViewById(R.id.on);
+        On = (Button)findViewById(R.id.on);
         Off = (ImageButton)findViewById(R.id.off);
         Discnt = (ImageButton)findViewById(R.id.discnt);
         Abt = (ImageButton)findViewById(R.id.abt);

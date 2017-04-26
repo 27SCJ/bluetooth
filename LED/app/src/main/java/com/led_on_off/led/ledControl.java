@@ -28,14 +28,12 @@ import static com.led_on_off.led.R.drawable.led;
 
 public class ledControl extends ActionBarActivity {
 
-   // Button btnOn, btnOff, btnDis;
     Button On, Off, Abt, Discnt;
     String address = null;
     private ProgressDialog progress;
     BluetoothAdapter myBluetooth = null;
     BluetoothSocket btSocket = null;
     private boolean isBtConnected = false;
-    //SPP UUID. Look for it
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     String dispositivo = android.os.Build.MODEL;
 
@@ -46,26 +44,23 @@ public class ledControl extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         Intent newint = getIntent();
-        address = newint.getStringExtra(DeviceList.EXTRA_ADDRESS); //receive the address of the bluetooth device
+        address = newint.getStringExtra(DeviceList.EXTRA_ADDRESS);
 
-        //view of the ledControl
         setContentView(R.layout.activity_led_control);
 
-        //call the widgets
         On = (Button)findViewById(R.id.on);
         Off = (Button)findViewById(R.id.off);
         Discnt = (Button)findViewById(R.id.discnt);
         Abt = (Button)findViewById(R.id.abt);
 
-        new ConnectBT().execute(); //Call the class to connect
+        new ConnectBT().execute();
 
-        //commands to be sent to bluetooth
-        On.setOnClickListener(new View.OnClickListener()
+          On.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                turnOnLed();      //method to turn on
+                turnOnLed();
             }
         });
 
@@ -73,16 +68,15 @@ public class ledControl extends ActionBarActivity {
             @Override
             public void onClick(View v)
             {
-                turnOffLed();   //method to turn off
+                turnOffLed();
             }
         });
-
         Discnt.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                Disconnect(); //close connection
+                Disconnect();
             }
         });
 
@@ -91,16 +85,16 @@ public class ledControl extends ActionBarActivity {
 
     private void Disconnect()
     {
-        if (btSocket!=null) //If the btSocket is busy
+        if (btSocket!=null)
         {
             try
             {
-                btSocket.close(); //close connection
+                btSocket.close();
             }
             catch (IOException e)
             { msg("Error");}
         }
-        finish(); //return to the first layout
+        finish();
 
     }
 
@@ -148,7 +142,7 @@ public class ledControl extends ActionBarActivity {
         }
     }
 
-    // fast way to call Toast
+
     private void msg(String s)
     {
         Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
@@ -165,19 +159,17 @@ public class ledControl extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_led_control, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_settings) {
             return true;
         }
@@ -187,49 +179,49 @@ public class ledControl extends ActionBarActivity {
 
 
 
-    private class ConnectBT extends AsyncTask<Void, Void, Void>  // UI thread
+    private class ConnectBT extends AsyncTask<Void, Void, Void>
     {
-        private boolean ConnectSuccess = true; //if it's here, it's almost connected
+        private boolean ConnectSuccess = true;
 
         @Override
         protected void onPreExecute()
         {
-            progress = ProgressDialog.show(ledControl.this, "Connecting...", "Please wait!!!");  //show a progress dialog
+            progress = ProgressDialog.show(ledControl.this, "Conectando...", "Aguarde!!!");
         }
 
         @Override
-        protected Void doInBackground(Void... devices) //while the progress dialog is shown, the connection is done in background
+        protected Void doInBackground(Void... devices)
         {
             try
             {
                 if (btSocket == null || !isBtConnected)
                 {
-                 myBluetooth = BluetoothAdapter.getDefaultAdapter();//get the mobile bluetooth device
-                 BluetoothDevice dispositivo = myBluetooth.getRemoteDevice(address);//connects to the device's address and checks if it's available
-                 btSocket = dispositivo.createInsecureRfcommSocketToServiceRecord(myUUID);//create a RFCOMM (SPP) connection
+                 myBluetooth = BluetoothAdapter.getDefaultAdapter();
+                 BluetoothDevice dispositivo = myBluetooth.getRemoteDevice(address);
+                 btSocket = dispositivo.createInsecureRfcommSocketToServiceRecord(myUUID);
                  BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
-                 btSocket.connect();//start connection
+                 btSocket.connect();
                 }
             }
             catch (IOException e)
             {
-                ConnectSuccess = false;//if the try failed, you can check the exception here
+                ConnectSuccess = false;
             }
             return null;
         }
         @Override
-        protected void onPostExecute(Void result) //after the doInBackground, it checks if everything went fine
+        protected void onPostExecute(Void result)
         {
             super.onPostExecute(result);
 
             if (!ConnectSuccess)
             {
-                msg("Connection Failed. Is it a SPP Bluetooth? Try again.");
+                msg("Conexão falhou!!!");
                 finish();
             }
             else
             {
-                msg("Connected.");
+                msg("Conectado!!!.");
                 isBtConnected = true;
             }
             progress.dismiss();

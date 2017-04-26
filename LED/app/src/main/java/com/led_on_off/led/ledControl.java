@@ -29,11 +29,10 @@ import static com.led_on_off.led.R.drawable.led;
 public class ledControl extends ActionBarActivity {
 
    // Button btnOn, btnOff, btnDis;
-    Button On, Off;
-    ImageButton Discnt, Abt;
+    Button On, Off, Abt, Discnt;
     String address = null;
     private ProgressDialog progress;
-    BluetoothAdapter myBluetoot = null;
+    BluetoothAdapter myBluetooth = null;
     BluetoothSocket btSocket = null;
     private boolean isBtConnected = false;
     //SPP UUID. Look for it
@@ -54,9 +53,9 @@ public class ledControl extends ActionBarActivity {
 
         //call the widgets
         On = (Button)findViewById(R.id.on);
-        Off = (ImageButton)findViewById(R.id.off);
-        Discnt = (ImageButton)findViewById(R.id.discnt);
-        Abt = (ImageButton)findViewById(R.id.abt);
+        Off = (Button)findViewById(R.id.off);
+        Discnt = (Button)findViewById(R.id.discnt);
+        Abt = (Button)findViewById(R.id.abt);
 
         new ConnectBT().execute(); //Call the class to connect
 
